@@ -23,3 +23,19 @@ CREATE TABLE logs (
   message TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE rooms (
+  id VARCHAR(10) PRIMARY KEY,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status ENUM('waiting', 'playing', 'finished') DEFAULT 'waiting'
+);
+
+CREATE TABLE room_players (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  room_id VARCHAR(10),
+  user_id VARCHAR(50),
+  role ENUM('agent', 'operator') NULL,
+  is_ready BOOLEAN DEFAULT FALSE,
+  joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE
+);
